@@ -1,1 +1,1 @@
-print('console log test')
+print('hello world')
