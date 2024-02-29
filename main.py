@@ -2,15 +2,20 @@ from tkinter import *
 import pandas
 import random
 
-data = pandas.read_csv("./data/functions_and_methods.csv")
-to_dict = data.to_dict(orient="records")
-
-
 GREEN = "#B1DDC6"
+to_dict = {}
+
+try:
+    data = pandas.read_csv("./data/saved_data.csv")
+except FileNotFoundError:
+    original_data = pandas.read_csv("./data/functions_and_methods.csv")
+    to_dict = original_data.to_dict(orient="records")
+else:
+    to_dict = data.to_dict(orient="records")
 
 
 def handleNextCard():
-    global flip_timer
+    global flip_timer, current_card
     window.after_cancel(flip_timer)
     current_card = random.choice(to_dict)
     canvas.itemconfig(
@@ -22,11 +27,17 @@ def handleNextCard():
 
 
 def handleFlipCard():
-    current_card = random.choice(to_dict)
     canvas.itemconfig(card_title, text="Functionality", fill="white")
     canvas.itemconfig(
         card_description, text=f"{current_card['Functionality']}", fill="white")
     canvas.itemconfig(card, image=card_back)
+
+
+def isKnown():
+    to_dict.remove(current_card)
+    new_data = pandas.DataFrame(to_dict)
+    new_data.to_csv("./data/saved_data.csv")
+    handleNextCard()
 
 
 window = Tk()
@@ -47,7 +58,7 @@ canvas.grid(column=0, row=0, columnspan=2)
 
 correct_img = PhotoImage(file="./image/right.png")
 correct_button = Button(
-    image=correct_img, highlightthickness=0, command=handleNextCard)
+    image=correct_img, highlightthickness=0, command=isKnown)
 correct_button.grid(column=1, row=1)
 
 wrong_img = PhotoImage(file="./image/wrong.png")
