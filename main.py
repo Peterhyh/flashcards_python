@@ -1,7 +1,6 @@
 from tkinter import *
 import pandas
 import random
-import time
 
 data = pandas.read_csv("./data/functions_and_methods.csv")
 to_dict = data.to_dict(orient="records")
