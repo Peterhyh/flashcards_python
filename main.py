@@ -36,7 +36,7 @@ def handleFlipCard():
 def isKnown():
     to_dict.remove(current_card)
     new_data = pandas.DataFrame(to_dict)
-    new_data.to_csv("./data/saved_data.csv")
+    new_data.to_csv("./data/saved_data.csv", index=False)
     handleNextCard()
 
 
