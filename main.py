@@ -2,7 +2,7 @@ from tkinter import *
 import pandas
 import random
 
-GREEN = "#B1DDC9"
+GREEN = "#B1DDC8"
 to_dict = {}
 
 try:
